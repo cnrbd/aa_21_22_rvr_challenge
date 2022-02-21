@@ -66,7 +66,8 @@ while(elapsed_time < 3.0):
         print("Retrying!")
         pass
     time.sleep(0.2)
-
+      
+      if()
 
 # Drive for two seconds at a heading of 90 degrees
 #rvr.drive(30,90)
