@@ -56,11 +56,14 @@ while(elapsed_time < 3.0):
             output = 80
         elif(error < 0):
             output = -80
+            
 
         rvr.setMotors(output, output) #set the power of the motors for both the left and right track
             # Read the Sphero RVR library file to find the rvr.setMotors(left,right) command.
             # Use this command in the next line to send the output of your proportional
             # control to both the left and right motors.
+           
+         
 
     except RuntimeError:
         print("Retrying!")
