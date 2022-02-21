@@ -69,10 +69,10 @@ while(elapsed_time < 3.0):
 
 
 # Drive for two seconds at a heading of 90 degrees
-rvr.drive(30,90)
-time.sleep(2.0)
-rvr.stop()
+#rvr.drive(30,90)
+#time.sleep(2.0)
+#rvr.stop()
 
 # Drive back to the starting point
-rvr.drive_to_position_si(0,0,0,0.4)
-time.sleep(3.0)
+#rvr.drive_to_position_si(0,0,0,0.4)
+#time.sleep(3.0)
