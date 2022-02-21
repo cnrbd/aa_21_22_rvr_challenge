@@ -65,12 +65,13 @@ while(elapsed_time < 3.0):
            
          
 
-    except RuntimeError:
-        print("Retrying!")
-        pass
-    time.sleep(0.2)
+    #except RuntimeError:
+        #print("Retrying!")
+        #pass
+    #time.sleep(0.2)
       
-      if()
+      rvr.drive(output, 0)
+
 
 # Drive for two seconds at a heading of 90 degrees
 #rvr.drive(30,90)
