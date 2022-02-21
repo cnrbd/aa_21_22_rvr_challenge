@@ -42,7 +42,7 @@ start_time = time.monotonic()
 elapsed_time = time.monotonic() - start_time
 
 #on off control
-while(elapsed_time < 3.0):
+while(elapsed_time < 5.0):
 
     elapsed_time = time.monotonic() - start_time
 
@@ -51,11 +51,12 @@ while(elapsed_time < 3.0):
 
         # Add your proportional control code here.
         error = sensor_distance - setpoint
+        output = k*error
 
-        if(error > 0):
-            output = 80
-        elif(error < 0):
-            output = -80
+        if(output > MAX_SPEED):
+            output = MAX_SPEED
+        elif(output < -MAX_SPEED):
+            output = -MAX_SPEED
             
 
         rvr.setMotors(output, output) #set the power of the motors for both the left and right track
@@ -63,14 +64,14 @@ while(elapsed_time < 3.0):
             # Use this command in the next line to send the output of your proportional
             # control to both the left and right motors.
            
-         
+        rvr.drive(30,0)
 
     #except RuntimeError:
         #print("Retrying!")
         #pass
     #time.sleep(0.2)
       
-      rvr.drive(output, 0)
+      
 
 
 # Drive for two seconds at a heading of 90 degrees
