@@ -9,7 +9,7 @@ import math
 
 import adafruit_hcsr04
 
-sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.D11, echo_pin=board.D10)
+sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.b1, echo_pin=board.b0)
 
 from sphero_rvr import RVRDrive
 
@@ -64,7 +64,7 @@ while(elapsed_time < 5.0):
             # Use this command in the next line to send the output of your proportional
             # control to both the left and right motors.
            
-        rvr.drive(30,0)
+        rvr.drive(output,0)
 
     #except RuntimeError:
         #print("Retrying!")
