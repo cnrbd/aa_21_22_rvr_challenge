@@ -1,5 +1,6 @@
 
 
+
    
 import board
 import busio
@@ -9,13 +10,12 @@ import math
 
 import adafruit_hcsr04
 
-sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.b1, echo_pin=board.b0)
+sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.B1, echo_pin=board.B0)
 
 from sphero_rvr import RVRDrive
 
 
-rvr = RVRDrive(uart = busio.UART(board.TX, board.RX, baudrate=115200)
-)
+rvr = RVRDrive(uart = busio.UART(board.A2, board.A3, baudrate=115200))
 time.sleep(0.5)
 
 rvr.set_all_leds(255,0,0) #set leds to red
@@ -43,7 +43,7 @@ elapsed_time = time.monotonic() - start_time
 
 #on off control
 while(elapsed_time < 5.0):
-
+    time.sleep(0.2)
     elapsed_time = time.monotonic() - start_time
 
     try:
@@ -67,10 +67,10 @@ while(elapsed_time < 5.0):
            
         
 
-    #except RuntimeError:
-        #print("Retrying!")
-        #pass
-    #time.sleep(0.2)
+    except RuntimeError:
+        print("Retrying!")
+        pass
+  
       
       
 
