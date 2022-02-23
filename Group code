@@ -72,7 +72,7 @@ while(elapsed_time < 5.0):
         pass
   
 #Drive for two seconds at a heading of 90 degrees
-rvr.drive(30,90)
+rvr.drive(70,90)
 time.sleep(2.0)
 rvr.stop()
 
