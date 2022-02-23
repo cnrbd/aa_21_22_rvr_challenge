@@ -76,6 +76,9 @@ rvr.drive(70,90)
 time.sleep(2.0)
 rvr.stop()
 
+
+rvr.drive(0,45)
+
 # Drive back to the starting point
 #rvr.drive_to_position_si(0,0,0,0.4)
 #time.sleep(3.0)
