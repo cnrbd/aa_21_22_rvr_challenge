@@ -72,8 +72,21 @@ rvr.drive(70,90)
 time.sleep(2.0)
 rvr.stop()
 
+setpoint_distance = 20.0
+k = 5
+MAX_SPEED = 100
+
 
 rvr.drive(0,45)
+
+if (sensor_distance = setpoint_distance)
+    rvr.setMotors(80, 80)
+else (sensor.distance > setpoint_distance)
+    rvr.drive(0,90)
+
+
+
+
 
 # Drive back to the starting point
 #rvr.drive_to_position_si(0,0,0,0.4)
