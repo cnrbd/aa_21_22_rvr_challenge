@@ -1,17 +1,11 @@
-import board
-import busio
-import time
-import math
-
-
-import adafruit_hcsr04
-
-sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.B1, echo_pin=board.B0)
-
+# sonar example 2022-02-21
+import board, busio, time, math, digitalio, adafruit_hcsr04
+from ssis_rvr   import pin
 from sphero_rvr import RVRDrive
 
+rvr   = RVRDrive(uart = busio.UART(pin.TX, pin.RX, baudrate=115200))
+sonar = adafruit_hcsr04.HCSR04(trigger_pin=pin.TRIGGER, echo_pin=pin.ECHO)
 
-rvr = RVRDrive(uart = busio.UART(board.A2, board.A3, baudrate=115200))
 time.sleep(0.5)
 
 rvr.set_all_leds(255,0,0) #set leds to red
@@ -22,72 +16,61 @@ rvr.set_all_leds(0,0,255) #set leds to blue
 time.sleep(0.1) #turn off
 rvr.set_all_leds(255,255,255) #turn off leds or make them all black
 
-rvr.sensor_start()
+
 
 print("starting up")
-setpoint = 32.0
-k = 5
+
+rvr.sensor_start()
+
+print("sensor_start")
+
+
 MAX_SPEED = 100
+rvr.sensor_start()
 
-rvr.update_sensors()
-
-sensor_distance = sonar.distance
-print(sensor_distance)
-error = 100
 start_time = time.monotonic()
 elapsed_time = time.monotonic() - start_time
 
-#on off control
-while(elapsed_time < 5.0):
-    time.sleep(0.2)
+# drive to coordinates (0,1.8)
+# elapsed time: 6.0 seconds
+rvr.drive_to_position_si(0, 0, 1.8, 1)
+while(elapsed_time < 6.0):
     elapsed_time = time.monotonic() - start_time
+    
+    time.sleep(0.1)
 
-    try:
-        sensor_distance = sonar.distance
+# drive at heading of 90 until x coordinate is 0.6
+# elapsed time: 3.0 seconds
+start_time = time.monotonic()
+elapsed_time = time.monotonic() - start_time
+rvr.update_sensors()
 
-        # Add your proportional control code here.
-        error = sensor_distance - setpoint
-        output = k*error
+setpoint = 0.6
+k = 120
+while(elapsed_time < 8.0):
+    elapsed_time = time.monotonic() - start_time
+    rvr.update_sensors()
+    
+    current_x_coordinate = rvr.get_x()
+    
+    error = setpoint - current_x_coordinate
+    
+    output = k*error
 
-        if(output > MAX_SPEED):
-            output = MAX_SPEED
-        elif(output < -MAX_SPEED):
-            output = -MAX_SPEED
-            
+    if(output > 100):
+        output = 100
+    if(output < -100):
+        output = -100
+    
+    print(current_x_coordinate)
+    rvr.drive(output,90)
+    
+    time.sleep(0.2)
+    
+rvr.stop
 
-        rvr.setMotors(output, output) 
-        #set the power of the motors for both the left and right track
-            # Read the Sphero RVR library file to find the rvr.setMotors(left,right) command.
-            # Use this command in the next line to send the output of your proportional
-            # control to both the left and right motors.
-           
-        
-
-    except RuntimeError:
-        print("Retrying!")
-        pass
-  
-#Drive for two seconds at a heading of 90 degrees
-rvr.drive(70,90)
+rvr.drive(0,40)
 time.sleep(2.0)
-rvr.stop()
-
-setpoint_distance = 20.0
-k = 5
-MAX_SPEED = 100
-
-
-rvr.drive(0,45)
-
-if (sensor_distance = setpoint_distance)
-    rvr.setMotors(80, 80)
-else (sensor.distance > setpoint_distance)
-    rvr.drive(0,90)
-
-
-
-
-
-# Drive back to the starting point
-#rvr.drive_to_position_si(0,0,0,0.4)
-#time.sleep(3.0)
+rvr.drive(100, 40)
+time.sleep(1.0)
+rvr.setMotors(100, 100)
