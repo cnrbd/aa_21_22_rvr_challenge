@@ -45,25 +45,29 @@ start_time = time.monotonic()
 elapsed_time = time.monotonic() - start_time
 rvr.update_sensors()
 
-setpoint = 0.6
+setpoint = 32
 k = 120
 while(elapsed_time < 8.0):
     elapsed_time = time.monotonic() - start_time
     rvr.update_sensors()
+  
+    try: 
+    sensor_distance = sonar.distance 
     
     current_x_coordinate = rvr.get_x()
     
-    error = setpoint - current_x_coordinate
+    
+    error = setpoint - sensor_distance
     
     output = k*error
 
-    if(output > 100):
-        output = 100
-    if(output < -100):
-        output = -100
+    if(output > MAX_SPEED ):
+        output = MAX_SPEED
+    if(output < -MAX_SPEED):
+        output = -MAX_SPEED
     
-    print(current_x_coordinate)
-    rvr.drive(output,90)
+    
+    rvr.setMotors(output,output)
     
     time.sleep(0.2)
     
