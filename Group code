@@ -33,48 +33,63 @@ elapsed_time = time.monotonic() - start_time
 
 # drive to coordinates (0,1.8)
 # elapsed time: 6.0 seconds
+
 rvr.drive_to_position_si(0, 0, 1.8, 1)
+
 while(elapsed_time < 6.0):
     elapsed_time = time.monotonic() - start_time
     
-    time.sleep(0.1)
+    time.sleep(0.2)
 
-# drive at heading of 90 until x coordinate is 0.6
-# elapsed time: 3.0 seconds
 start_time = time.monotonic()
 elapsed_time = time.monotonic() - start_time
 rvr.update_sensors()
 
-setpoint = 32
+setpoint = 0.6
 k = 120
 while(elapsed_time < 8.0):
     elapsed_time = time.monotonic() - start_time
     rvr.update_sensors()
-  
-    try: 
-    sensor_distance = sonar.distance 
     
     current_x_coordinate = rvr.get_x()
     
-    
-    error = setpoint - sensor_distance
+    error = setpoint - current_x_coordinate
     
     output = k*error
 
-    if(output > MAX_SPEED ):
-        output = MAX_SPEED
-    if(output < -MAX_SPEED):
-        output = -MAX_SPEED
+    if(output > 100):
+        output = 100
+    if(output < -100):
+        output = -100
     
-    
-    rvr.setMotors(output,output)
+    print(current_x_coordinate)
+    rvr.drive(output,90)
     
     time.sleep(0.2)
-    
-rvr.stop
 
-rvr.drive(0,40)
-time.sleep(2.0)
-rvr.drive(100, 40)
-time.sleep(1.0)
-rvr.setMotors(100, 100)
+start_time = time.monotonic()
+elapsed_time = time.monotonic() - start_time
+rvr.update_sensors()
+
+setpoint = 1.2
+k = 120
+while(elapsed_time < 8.0):
+    elapsed_time = time.monotonic() - start_time
+    rvr.update_sensors()
+    
+    current_x_coordinate = rvr.get_x()
+    
+    error = setpoint - current_x_coordinate
+    
+    output = k*error
+
+    if(output > 100):
+        output = 100
+    if(output < -100):
+        output = -100
+    
+    print(current_x_coordinate)
+    rvr.drive(output,47)
+    time.sleep(1.0)
+    rvr.setMotors(output,output)
+    rvr.stop
