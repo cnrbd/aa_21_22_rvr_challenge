@@ -93,3 +93,55 @@ while(elapsed_time < 8.0):
     time.sleep(1.0)
     rvr.setMotors(output,output)
     rvr.stop
+
+#greenblocck code
+start_time = time.monotonic()
+elapsed_time = time.monotonic() - start_time
+rvr.update_sensors()
+
+
+
+setpoint = 1.8
+k = 120
+while(elapsed_time < 8.0):
+    elapsed_time = time.monotonic() - start_time
+    rvr.update_sensors()
+
+    
+
+    current_x_coordinate = rvr.get_x()
+    error = setpoint - current_x_coordinate
+    output = k*error
+
+    if(output > 100):
+        output = 100
+    if(output < -100):
+        output = -100
+        
+    print(current_x_coordinate)
+    rvr.drive(output,180)
+    time.sleep(1.0)
+    rvr.setMotors(output,output)
+    time.sleep(2.0)
+
+setpoint = 0.0
+rvr.drive(10,180)
+time.sleep(1.0)
+rvr.stop()
+
+
+start_time = time.monotonic()
+elapsed_time = time.monotonic() - start_time
+
+while(elapsed_time < 4.0):
+    elapsed_time = time.monotonic() - start_time
+    rvr.update_sensors()    
+
+    current_y_coordinate = rvr.get_y()
+    print(current_y_coordinate)
+    if(current_y_coordinate > setpoint):
+        rvr.setMotors(100,100)
+    if(current_y_coordinate <= setpoint):
+        rvr.setMotors(-100,-100)
+    time.sleep(0.2)
+rvr.stop()
